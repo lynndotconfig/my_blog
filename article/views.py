@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from datetime import datetime
 from django.http import HttpResponse
 from article.models import Article
@@ -26,3 +26,21 @@ def archives(request):
         raise Http404
     return render(request, 'archives.html', {
         'post_list': post_list, 'error': False})
+
+
+def search_tag(request):
+    return render(request, 'home.html')
+
+
+def blog_search(request):
+    if 's' in request.GET:
+        s = request.GET['s']
+        if not s:
+            return render(request, 'home.html')
+        post_list = Article.objects.filter(title__icontains=s)
+        if len(post_list) == 0:
+            return render(request, 'archives.html', {'post_list': post_list,
+                                                     'error': True})
+        return render(request, 'archives.html', {'post_list': post_list,
+                                                 'error': False})
+    return redirect('/')
