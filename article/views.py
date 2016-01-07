@@ -3,6 +3,7 @@ from datetime import datetime
 from django.http import HttpResponse
 from article.models import Article
 from django.http import Http404
+from django.contrib.syndication.views import Feed
 
 
 # Create your views here.
@@ -44,3 +45,21 @@ def blog_search(request):
         return render(request, 'archives.html', {'post_list': post_list,
                                                  'error': False})
     return redirect('/')
+
+
+class RSSFeed(Feed):
+    title = "RSS feed - article"
+    link = "feed/posts/"
+    description = "RSS feed - blog posts"
+
+    def items(self):
+        return Article.objects.order_by('-date_time')
+
+    def item_title(self, item):
+        return item.title
+
+    def item_pubdate(self, item):
+        return item.date_time
+
+    def item_description(self, item):
+        return item.content
