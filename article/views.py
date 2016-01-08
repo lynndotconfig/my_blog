@@ -5,12 +5,13 @@ from article.models import Article
 from django.http import Http404
 from django.contrib.syndication.views import Feed
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import DetailView
 
 
 # Create your views here.
 def home(request):
     posts = Article.objects.all()
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 3)
     page = request.GET.get('page')
     try:
         post_list = paginator.page(page)
@@ -21,12 +22,14 @@ def home(request):
     return render(request, 'home.html', {'post_list': post_list})
 
 
-def detail(request, id):
-    try:
-        post = Article.objects.get(id=str(id))
-    except Article.DoesNotExist:
-        raise Http404
-    return render(request, 'post.html', {'post': post})
+class ArticleDetailView(DetailView):
+
+    model = Article
+    template_name = "post.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetailView, self).get_context_data(**kwargs)
+        return context
 
 
 def archives(request):
