@@ -1,10 +1,8 @@
 from django.shortcuts import render, redirect
 from datetime import datetime
-from django.http import HttpResponse
 from article.models import Article
 from django.http import Http404
 from django.contrib.syndication.views import Feed
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
@@ -36,18 +34,23 @@ def search_tag(request):
     return render(request, 'home.html')
 
 
-def blog_search(request):
-    if 's' in request.GET:
-        s = request.GET['s']
-        if not s:
-            return render(request, 'home.html')
-        post_list = Article.objects.filter(title__icontains=s)
-        if len(post_list) == 0:
-            return render(request, 'archives.html', {'post_list': post_list,
-                                                     'error': True})
-        return render(request, 'archives.html', {'post_list': post_list,
-                                                 'error': False})
-    return redirect('/')
+class ArticleSearchView(ListView):
+
+    template_name = "archives.html"
+    model = Article
+
+    context_object_name = "post_list"
+
+    def get_queryset(self):
+        try:
+            s = self.kwargs['s']
+        except:
+            s = ''
+        if s:
+            post_list = self.model.objects.filter(title__icontains=s)
+        else:
+            post_list = self.model.objects.all()
+        return post_list
 
 
 class RSSFeed(Feed):
