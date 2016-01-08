@@ -27,10 +27,6 @@ class ArticleDetailView(DetailView):
     model = Article
     template_name = "post.html"
 
-    def get_context_data(self, **kwargs):
-        context = super(ArticleDetailView, self).get_context_data(**kwargs)
-        return context
-
 
 def archives(request):
     try:
