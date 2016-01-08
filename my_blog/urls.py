@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from article.views import RSSFeed, ArticleDetailView
+from article.views import RSSFeed, ArticleDetailView, ArticleListView
 
 
 urlpatterns = [
@@ -23,7 +23,7 @@ urlpatterns = [
     # url(r'^$', 'article.views.home'),
     # url(r'^(?P<my_args>\d+)/$', 'article.views.detail', name='detail'),
     # url(r'^test/$', 'article.views.test'),
-    url(r'^$', 'article.views.home'),
+    url(r'^$', ArticleListView.as_view(), name="home"),
     url(r'^(?P<pk>\d+)/$', ArticleDetailView.as_view(), name='detail'),
     url(r'^archives/$', 'article.views.archives', name='archives'),
     url(r'tag(?P<tag>\w+)/$', 'article.views.search_tag', name="search_tag"),

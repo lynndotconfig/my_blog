@@ -6,20 +6,15 @@ from django.http import Http404
 from django.contrib.syndication.views import Feed
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import DetailView
+from django.views.generic import ListView
 
 
-# Create your views here.
-def home(request):
-    posts = Article.objects.all()
-    paginator = Paginator(posts, 3)
-    page = request.GET.get('page')
-    try:
-        post_list = paginator.page(page)
-    except PageNotAnInteger:
-        post_list = paginator.page(1)
-    except EmptyPage:
-        post_list = paginator.paginator(paginator.num_pages)
-    return render(request, 'home.html', {'post_list': post_list})
+class ArticleListView(ListView):
+    model = Article
+    template_name = "home.html"
+
+    paginate_by = 3
+    context_object_name = "post_list"
 
 
 class ArticleDetailView(DetailView):
