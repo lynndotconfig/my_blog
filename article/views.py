@@ -5,6 +5,8 @@ from django.http import Http404
 from django.contrib.syndication.views import Feed
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import CreateView
+from django.views.generic.edit import UpdateView
 
 
 class ArticleListView(ListView):
@@ -69,3 +71,21 @@ class RSSFeed(Feed):
 
     def item_description(self, item):
         return item.content
+
+
+class ArticleCreateView(CreateView):
+    model = Article
+    fields = ['title', 'category', 'content', ]
+    template_name = 'article_create_form.html'
+
+    def get_success_url(self):
+        return "/"
+
+
+class ArticleUpdateView(UpdateView):
+    model = Article
+    fields = ['title', 'category', 'content']
+    template_name = 'article_update_form.html'
+
+    def get_success_url(self):
+        return "/"
