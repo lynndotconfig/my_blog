@@ -57,7 +57,7 @@ class ArticleSearchView(ListView):
 
 class RSSFeed(Feed):
     title = "RSS feed - article"
-    link = "feed/posts/"
+    link = "feed/post/"
     description = "RSS feed - blog posts"
 
     def items(self):
