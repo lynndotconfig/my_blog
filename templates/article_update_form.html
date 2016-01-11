@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<form action="" method="post" class="pure-form pure-form-aligned">
+<form action="" method="post" role="form">
         {% csrf_token %}
-    <div class="pure-u-1 pure-input-1">
-        {{ form.as_p}}
+    <div class="form-controll">
+        {{ form.as_p }}
     </div>
-    <input type="submit" value="Update" class="pure-button pure-button-primary" />
+    <input type="submit" value="Update" class="btn btn-primary"/>
 </form>
 
 {% endblock %}
