@@ -3,8 +3,17 @@
 {% block content %}
 <form action="" method="post" role="form">
         {% csrf_token %}
-    <div class="form-controll">
-        {{ form.as_p }}
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" class="form-control" {{ form.title }}
+    </div>
+    <div class="form-group">
+        <label for="category">Category:</label>
+        <input type="text" class="form-control" {{ form.category }}
+    </div>
+    <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea class="form-control" rows="20" {{ form.content }}
     </div>
     <input type="submit" value="Update" class="btn btn-primary"/>
 </form>
