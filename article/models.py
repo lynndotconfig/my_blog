@@ -11,7 +11,7 @@ class Article(models.Model):
     content = models.TextField(blank=True, null=True)  # 博客文字正文
 
     def get_absolute_url(self):
-        path = reverse('detail', kwargs={'id': self.id})
+        path = reverse('detail', kwargs={'pk': self.id})
         return "http://127.0.0.1:8000%s" % path
 
     # python3使用__unicode__, python2使用__str__

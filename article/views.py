@@ -78,14 +78,8 @@ class ArticleCreateView(CreateView):
     fields = ['title', 'category', 'content', ]
     template_name = 'article_create_form.html'
 
-    def get_success_url(self):
-        return "/"
-
 
 class ArticleUpdateView(UpdateView):
     model = Article
     fields = ['title', 'category', 'content']
     template_name = 'article_update_form.html'
-
-    def get_success_url(self):
-        return "/"
