@@ -1,6 +1,6 @@
 """views for poll model."""
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from .models import Question
 
 
@@ -16,11 +16,11 @@ def index(request):
 
 def detail(request, question_id):
     """Detail view for poll."""
-    obj = Question.objects.get(id=question_id)
-    context = {
-        'object': obj,
-    }
-    return render(request, 'polls/detail.html', context)
+    try:
+        obj = Question.objects.get(id=question_id)
+    except Question.DoesNotExist:
+        raise Http404("Question does not exist")
+    return render(request, 'polls/detail.html', {'object': obj})
 
 
 def result(request, question_id):
