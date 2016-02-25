@@ -2,6 +2,9 @@
 <p>{{object.id}}</p>
 <p>{{object.question_text}}</p>
 <p>{{object.pub_date}}</p>
+{% for choice in object.choice_set.all %}
+<li>{{ choice.choice_text }}</li>
+{% endfor %}
 {% else %}
 <p>No such a question.</p>
 {% endif%}
