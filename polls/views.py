@@ -18,7 +18,7 @@ def index(request):
 def detail(request, question_id):
     """Detail view for poll."""
     obj = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/detail.html', {'object': obj})
+    return render(request, 'polls/detail.html', {'question': obj})
 
 
 def result(request, question_id):
