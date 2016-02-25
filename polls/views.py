@@ -24,7 +24,8 @@ def detail(request, question_id):
 
 def result(request, question_id):
     """Result view for polls."""
-    return HttpResponse("Yor're looking at result of %s" % question_id)
+    question = get_object_or_404(Question, pk=question_id)
+    return render(request, 'polls/results.html', {'question': question})
 
 
 def vote(request, question_id):
