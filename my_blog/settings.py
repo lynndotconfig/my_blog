@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'article',  # new article app
+    'polls.apps.PollsConfig',
 ]
 
 from django.conf import global_settings
