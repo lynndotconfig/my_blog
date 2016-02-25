@@ -18,25 +18,19 @@ class IndexView(generic.ListView):
         """Return the latest five published questions."""
         return Question.objects.order_by('-pub_date')[:5]
 
-# def index(request):
-#     """Index view for polls."""
-#     latest_question_list = Question.objects.order_by('-pub_date')[:5]
-#     context = {
-#         'latest_question_list': latest_question_list,
-#     }
-#     return render(request, 'polls/index.html', context)
+
+class DetailView(generic.DetailView):
+    """Detail view of question."""
+
+    model = Question
+    template_name = 'polls/detail.html'
 
 
-def detail(request, question_id):
-    """Detail view for poll."""
-    obj = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/detail.html', {'question': obj})
+class ResultView(generic.DetailView):
+    """Results view for question votes."""
 
-
-def result(request, question_id):
-    """Result view for polls."""
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/results.html', {'question': question})
+    model = Question
+    template_name = 'polls/results.html'
 
 
 def vote(request, question_id):
