@@ -4,7 +4,7 @@ from .models import Question, Choice
 
 
 # Register your models here.
-class ChoiceInline(admin.StackedInline):
+class ChoiceInline(admin.TabularInline):
     """inline choice."""
 
     model = Choice
