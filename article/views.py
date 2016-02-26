@@ -75,11 +75,11 @@ class RSSFeed(Feed):
 
 class ArticleCreateView(CreateView):
     model = Article
-    fields = ['title', 'category', 'content', ]
+    fields = ['title', 'category', 'content', 'tag']
     template_name = 'article_create_form.html'
 
 
 class ArticleUpdateView(UpdateView):
     model = Article
-    fields = ['title', 'category', 'content']
+    fields = ['title', 'category', 'content', 'tag']
     template_name = 'article_update_form.html'

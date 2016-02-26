@@ -5,7 +5,10 @@ from django.core.urlresolvers import reverse
 
 # Create your models here.
 class Article(models.Model):
+    TAGS = (('F', 'Feeling'), ('W', 'Working'), ('E', 'Entertainment'))
+
     title = models.CharField(max_length=100)  # 博客题目
+    tag = models.CharField(choices=TAGS, max_length=50, blank=True)
     category = models.CharField(max_length=50, blank=True)  # 博客标签
     date_time = models.DateTimeField(auto_now_add=True)  # 博客日期
     content = models.TextField(blank=True, null=True)  # 博客文字正文
