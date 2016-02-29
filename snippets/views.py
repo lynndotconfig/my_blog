@@ -3,47 +3,37 @@
 from snippets.models import Snippet
 from django.contrib.auth.models import User
 from snippets.serializers import SnippetSerializer, UserSerializer
-from rest_framework import generics, renderers
+from rest_framework import renderers
 from rest_framework import permissions
 from snippets.permissions import IsOwnerOrReadOnly
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, detail_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
 
 
-class SnippetList(generics.ListCreateAPIView):
-    """List View with get, post method."""
+class SnippetViewSet(viewsets.ModelViewSet):
+    """This viewset automatically provides.
+
+     `list`, `create`, `retrieve`, `update`, and `destroy` actions.
+    Additionally we also provide an extra `highlight` action.
+    """
 
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
-    permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+    permissions_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerOrReadOnly,)
 
-    def perform_create(self, serializer):
-        """Associating snippets with users."""
-        serializer.save(owner=self.request.user)
-
-
-class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
-    """Detail view with get, put, delete."""
-
-    queryset = Snippet.objects.all()
-    serializer_class = SnippetSerializer
-    permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
-
-
-class SnippetHighlight(generics.GenericAPIView):
-    """Snippet Highlight view."""
-
-    queryset = Snippet.objects.all()
-    renderer_classes = (renderers.StaticHTMLRenderer,)
-
-    def get(self, request, *args, **kwargs):
-        """Represent instanche."""
+    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
+    def highlight(self, request, *args, **kwargs):
+        """Create a custom action, named `highlight`."""
         snippet = self.get_object()
         return Response(snippet.highlighted)
+
+    def perform_create(self, serializer):
+        """Rewrite create to associating snippets with users."""
+        serializer.save(owner=self.request.user)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
