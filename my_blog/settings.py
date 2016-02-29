@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'article',  # new article app
     'polls.apps.PollsConfig',
+    'rest_framework',
+    'snippets',
 ]
 
 from django.conf import global_settings
