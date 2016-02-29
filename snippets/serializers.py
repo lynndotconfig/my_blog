@@ -4,27 +4,29 @@ from snippets.models import Snippet
 from django.contrib.auth.models import User
 
 
-class SnippetSerializer(serializers.ModelSerializer):
-    """Snippet serializer."""
+class SnippetSerializer(serializers.HyperlinkedModelSerializer):
+    """Using hyperlinking between two entries."""
 
-    owner = serializers.ReadOnlyField(source='owner.usrname')
+    owner = serializers.ReadOnlyField(source='owner.username')
+    highlight = serializers.HyperlinkedIdentityField(
+        view_name='snippet-highlight', format='html')
 
     class Meta:
-        """Meta model and fields."""
+        """Meta class for  snippetSerializer."""
 
         model = Snippet
-        fields = (
-            'id', 'title', 'code', 'linenos', 'language', 'style', 'owner')
+        fields = ('url', 'highlight', 'owner', 'title',
+                  'code', 'linenos', 'language', 'style')
 
 
-class UserSerializer(serializers.ModelSerializer):
-    """User serializer."""
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    """Using hyperlinking between two entries."""
 
-    snippets = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Snippet.objects.all())
+    snippets = serializers.HyperlinkedRelatedField(
+        many=True, view_name='snippet-detail', read_only=True)
 
     class Meta:
-        """Meta model and fields."""
+        """Meta class for UserSerializer."""
 
         model = User
-        fields = ('id', 'username', 'snippets')
+        fields = ('url', 'username', 'snippets')
