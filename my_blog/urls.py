@@ -21,6 +21,7 @@ from article.views import ArticleUpdateView
 
 urlpatterns = [
     url(r'^polls/', include('polls.urls')),
+    url(r'^snippets/', include('snippets.urls')),
     url(r'^admin/', admin.site.urls),
     # url(r'^$', 'article.views.home'),
     # url(r'^(?P<my_args>\d+)/$', 'article.views.detail', name='detail'),
