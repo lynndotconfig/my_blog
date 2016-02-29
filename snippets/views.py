@@ -2,56 +2,41 @@
 # Create your views here.
 from snippets.models import Snippet
 from snippets.serializers import SnippetSerializer
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from django.http import Http404
+from rest_framework import mixins
+from rest_framework import generics
 
 
-class SnippetList(APIView):
-    """List snippets, or create a new one."""
+class SnippetList(mixins.ListModelMixin, mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+    """Snippet list view."""
 
-    def get(self, requset, format=True):
-        """Get all snippets."""
-        snippets = Snippet.objects.all()
-        serializer = SnippetSerializer(snippets, many=True)
-        return Response(serializer.data)
+    queryset = Snippet.objects.all()
+    serializer_class = SnippetSerializer
 
-    def post(self, request, format=True):
-        """Created new snippet."""
-        serializer = SnippetSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, *args, **kwargs):
+        """Get all objects of snippets."""
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        """Update or create a record of snippets."""
+        return self.create(request, *args, **kwargs)
 
 
-class SnippetDetail(APIView):
-    """Detail of a certain snippet."""
+class SnippetDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin, generics.GenericAPIView):
+    """Detail fo snippet."""
 
-    def get_object(self, pk):
-        """Get object by pk."""
-        try:
-            return Snippet.objects.get(pk=pk)
-        except Snippet.DoseNotExist:
-            return Http404
+    queryset = Snippet.objects.all()
+    serializer_class = SnippetSerializer
 
-    def get(self, request, pk, format=None):
-        """Rewrite Get method."""
-        snippet = self.get_object(pk)
-        serializer = SnippetSerializer(snippet)
-        return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        """Get all objects of snippets."""
+        return self.retrieve(request, *args, **kwargs)
 
-    def put(self, request, pk, format=True):
-        """Rewrite update method."""
-        snippet = self.get_object(pk)
-        serializer = SnippetSerializer(snippet, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer, status=status.HTTP_400_BAD_REQUEST)
+    def put(self, request, *args, **kwargs):
+        """Update a certain record of snippet."""
+        return self.update(request, *args, **kwargs)
 
-    def delete(self, request, pk, format=True):
-        """Rewrite delete method."""
-        snippet = self.get_object(pk)
-        snippet.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, *args, **kwargs):
+        """Delete this object."""
+        return self.destroy(request, *args, **kwargs)
