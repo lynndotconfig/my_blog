@@ -31,6 +31,7 @@ urlpatterns = [
         namespace='rest_framework')),
     url(r'^api-root/$', views.api_root),
     url(r'^(?P<pk>[0-9]+)/highlight/$', snippet_highlight, name='snippet-highlight'),
+    url(r'^file/$', views.FileUploadView.as_view(), name='file-upload'),
 ]
 
 

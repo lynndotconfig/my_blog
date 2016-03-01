@@ -134,4 +134,6 @@ STATIC_URL = '/static/'
 # Settings for for rest_framework
 REST_FRAMEWORK = {
     'PAGE_SIZE': 10,  # pagination
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',)
 }

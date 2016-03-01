@@ -9,7 +9,8 @@ from snippets.permissions import IsOwnerOrReadOnly
 from rest_framework.decorators import api_view, detail_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework import viewsets
+from rest_framework import viewsets, views
+from rest_framework.parsers import FileUploadParser
 
 
 class SnippetViewSet(viewsets.ModelViewSet):
@@ -49,3 +50,15 @@ def api_root(request, format=None):
     return Response({
         'users': reverse('user-list', request=request, format=format),
         'snippets': reverse('snippet-list', request=request, format=format)})
+
+
+class FileUploadView(views.APIView):
+    """Example to use FileUploadParser."""
+
+    parser_classes = (FileUploadParser,)
+
+    def put(self, request, filename, format=None):
+        """Try something with upload file."""
+        file_obj = request.data['file']
+        return Response(status=204)
+
