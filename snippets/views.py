@@ -11,6 +11,9 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import viewsets, views
 from rest_framework.parsers import FileUploadParser
+from snippets.forms import UploadFileForm
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 
 
 class SnippetViewSet(viewsets.ModelViewSet):
@@ -62,3 +65,22 @@ class FileUploadView(views.APIView):
         file_obj = request.data['file']
         return Response(status=204)
 
+
+@api_view(['POST', 'GET', ])
+def upload_file(request):
+    """Upload file view."""
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_upload_file(request.FILES['file'])
+            return HttpResponseRedirect('/success/url')
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload.html', {'form': form})
+
+
+def handle_upload_file(f):
+    """Handle upload file."""
+    with open('/', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
