@@ -66,6 +66,12 @@ class ExperimentViewSet(viewsets.ModelViewSet):
         """Rewrite create to associating snippets with users."""
         serializer.save(user=self.request.user)
 
+    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
+    def code(self, request, *args, **kwargs):
+        """Print code of experiment."""
+        experiment = self.get_object()
+        return Response(experiment.samplesheet)
+
 
 @api_view(['GET'])
 def api_root(request, format=None):

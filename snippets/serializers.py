@@ -35,8 +35,11 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class ExperimentSerializer(serializers.ModelSerializer):
     """Serialize experiment."""
 
+    code = serializers.HyperlinkedIdentityField(
+        view_name='experiment-code', format='html')
+
     class Meta:
         """Meta class."""
 
         model = Experiment
-        fields = ('id', 'notes', 'samplesheet', 'user')
+        fields = ('url', 'id', 'notes', 'samplesheet', 'user', 'code')

@@ -53,5 +53,7 @@ class Experiment(models.Model):
     """Example for file upload in rest."""
 
     notes = models.TextField(blank=True)
-    samplesheet = models.FileField(blank=True, default='')
+    samplesheet = models.FileField(
+        upload_to='snippets/uploads/%Y/%m/%d', blank=True, default='')
     user = models.ForeignKey('auth.user', related_name='experiments')
+    code = models.TextField(blank=True)
