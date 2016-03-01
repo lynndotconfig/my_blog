@@ -47,3 +47,11 @@ class Snippet(models.Model):
                                   full=True, **options)
         self.highlighted = highlight(self.code, lexer, formatter)
         super(Snippet, self).save(*args, **kwargs)
+
+
+class Experiment(models.Model):
+    """Example for file upload in rest."""
+
+    notes = models.TextField(blank=True)
+    samplesheet = models.FileField(blank=True, default='')
+    user = models.ForeignKey('auth.user', related_name='experiments')

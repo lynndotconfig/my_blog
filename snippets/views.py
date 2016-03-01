@@ -1,8 +1,8 @@
 """Serilizer for model snippets."""
 # Create your views here.
-from snippets.models import Snippet
+from snippets.models import Snippet, Experiment
 from django.contrib.auth.models import User
-from snippets.serializers import SnippetSerializer, UserSerializer
+from snippets.serializers import SnippetSerializer, UserSerializer, ExperimentSerializer
 from rest_framework import renderers
 from rest_framework import permissions
 from snippets.permissions import IsOwnerOrReadOnly
@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view, detail_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import viewsets, views
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import FileUploadParser, FormParser, MultiPartParser
 from snippets.forms import UploadFileForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -45,6 +45,26 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+class ExperimentViewSet(viewsets.ModelViewSet):
+    """This viewset automatically provides.
+
+     `list`, `create`, `retrieve`, `update`, and `destroy` actions.
+    Additionally we also provide an extra `highlight` action.
+    """
+
+    queryset = Experiment.objects.all()
+    serializer_class = ExperimentSerializer
+    parser_classes = (FormParser, MultiPartParser,)
+
+    def pre_save(self, obj):
+        """File field."""
+        obj.samplesheet = self.request.FILES.get('file')
+
+    def perform_create(self, serializer):
+        """Rewrite create to associating snippets with users."""
+        serializer.save(user=self.request.user)
 
 
 @api_view(['GET'])

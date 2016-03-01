@@ -21,12 +21,22 @@ user_list = views.UserViewSet.as_view({
 user_detail = views.UserViewSet.as_view({
     'get': 'retrieve'})
 
+experiment_list = views.ExperimentViewSet.as_view({
+    'get': 'list',
+    'post': 'create'})
+experiment_detail = views.ExperimentViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy'})
 
 urlpatterns = [
     url(r'^$', snippet_list, name='snippet-list'),
     url(r'^(?P<pk>[0-9]+)/$', snippet_detail, name='snippet-detail'),
     url(r'^users/$', user_list, name='user-list'),
     url(r'^users/(?P<pk>[0-9]+)/$', user_detail, name='user-detail'),
+    url(r'^experiment/$', experiment_list, name='expriment-list'),
+    url(r'^experiment/(?P<pk>[0-9]+)/$', experiment_detail, name='expriment-detail'),
     url(r'^api-auth/', include('rest_framework.urls',
         namespace='rest_framework')),
     url(r'^api-root/$', views.api_root),
