@@ -2,7 +2,10 @@
 
 {% block content %}
 <form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
+    <input type='text' placeholder="title for this article." name="title" />
+    <input type='text' placeholder="tag for this article." name="tag" />
+    <input type='text' placeholder="category for this article." name="category" />
+    <input type='text' placeholder="content for this article." name="content" />
     <input type="submit" value="Create"/>
 </form>
 {% endblock %}
