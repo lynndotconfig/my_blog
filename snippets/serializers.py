@@ -63,5 +63,5 @@ class LoginSerializer(serializers.Serializer):
         style={'placeholder': 'Email'})
     password = serializers.CharField(
         max_length=100,
-        style={'input_type': 'password', 'placholder': 'Password'})
+        style={'input_type': 'password', 'placeholder': 'Password'})
     remember_me = serializers.BooleanField()
