@@ -4,6 +4,7 @@ from snippets.models import Snippet, Experiment, Profile
 from django.contrib.auth.models import User
 from snippets.serializers import SnippetSerializer, UserSerializer
 from snippets.serializers import ExperimentSerializer, ProfileSerializer
+from snippets.serializers import LoginSerializer
 from rest_framework import renderers
 from rest_framework import permissions
 from snippets.permissions import IsOwnerOrReadOnly
@@ -154,3 +155,15 @@ class ProfileDetail(views.APIView):
             return Response({'serializer': serializer, 'profile': profile})
         serializer.save()
         return redirect('profile-list')
+
+
+class Login(views.APIView):
+    """Example to test render_form para template_pack."""
+
+    renderer_classes = [renderers.TemplateHTMLRenderer]
+    template_name = 'login.html'
+
+    def get(self, request):
+        """Get page info."""
+        serializer = LoginSerializer()
+        return Response({'serializer': serializer})

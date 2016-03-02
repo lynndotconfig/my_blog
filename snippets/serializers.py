@@ -53,3 +53,15 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
         model = Profile
         fields = ('url', 'name')
+
+
+class LoginSerializer(serializers.Serializer):
+    """Example for test render_form parm template_pack."""
+
+    email = serializers.EmailField(
+        max_length=100,
+        style={'placeholder': 'Email'})
+    password = serializers.CharField(
+        max_length=100,
+        style={'input_type': 'password', 'placholder': 'Password'})
+    remember_me = serializers.BooleanField()
