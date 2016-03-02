@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'rest_framework',
     'snippets',
+    'rest_framework_docs',
 ]
 
 from django.conf import global_settings

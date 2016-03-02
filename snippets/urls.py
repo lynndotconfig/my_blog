@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^file/$', views.FileUploadView.as_view(), name='file-upload'),
     url(r'^upload/$', views.upload_file, name='upload'),
     url(r'^', include(router.urls)),
+    url(r'^docs/', include('rest_framework_docs.urls')),
 ]
