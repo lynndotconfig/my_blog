@@ -1,6 +1,6 @@
 """snippets/serializers.py."""
 from rest_framework import serializers
-from snippets.models import Snippet, Experiment
+from snippets.models import Snippet, Experiment, Profile
 from django.contrib.auth.models import User
 
 
@@ -43,3 +43,13 @@ class ExperimentSerializer(serializers.ModelSerializer):
 
         model = Experiment
         fields = ('url', 'id', 'notes', 'samplesheet', 'user', 'code')
+
+
+class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+    """Example to test StaticHTMLRenderer render form."""
+
+    class Meta:
+        """Meta class."""
+
+        model = Profile
+        fields = ('url', 'name')

@@ -2,7 +2,8 @@
 # Create your views here.
 from snippets.models import Snippet, Experiment, Profile
 from django.contrib.auth.models import User
-from snippets.serializers import SnippetSerializer, UserSerializer, ExperimentSerializer
+from snippets.serializers import SnippetSerializer, UserSerializer
+from snippets.serializers import ExperimentSerializer, ProfileSerializer
 from rest_framework import renderers
 from rest_framework import permissions
 from snippets.permissions import IsOwnerOrReadOnly
@@ -13,7 +14,8 @@ from rest_framework import viewsets, views
 from rest_framework.parsers import FileUploadParser, FormParser, MultiPartParser
 from snippets.forms import UploadFileForm
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from rest_framework import status
 
 
 class SnippetViewSet(viewsets.ModelViewSet):
@@ -122,3 +124,33 @@ class ProfileList(views.APIView):
         """Get list data."""
         queryset = Profile.objects.all()
         return Response({'profiles': queryset})
+
+    def post(self, request, format=True):
+        """Add post method to create instance."""
+        serializer = ProfileSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProfileDetail(views.APIView):
+    """Exampel to test TemplateHTMLRenderer to render form."""
+
+    renderer_classes = [renderers.TemplateHTMLRenderer]
+    template_name = 'profile_detail.html'
+
+    def get(self, request, pk):
+        """Get object."""
+        profile = get_object_or_404(Profile, pk=pk)
+        serializer = ProfileSerializer(profile, context={'request': request})
+        return Response({'serializer': serializer, 'profile': profile})
+
+    def post(self, request, pk):
+        """Post object."""
+        profile = get_object_or_404(Profile, pk=pk)
+        serializer = ProfileSerializer(profile, data=request.data, context={'request': request})
+        if not serializer.is_valid():
+            return Response({'serializer': serializer, 'profile': profile})
+        serializer.save()
+        return redirect('profile-list')
