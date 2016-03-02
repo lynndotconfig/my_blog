@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^upload/$', views.upload_file, name='upload'),
     url(r'^', include(router.urls)),
     url(r'^docs/', include('rest_framework_docs.urls')),
+    url(r'^profile/', views.ProfileList.as_view(), name="profile-list"),
 ]

@@ -57,3 +57,9 @@ class Experiment(models.Model):
         upload_to='snippets/uploads/%Y/%m/%d', blank=True, default='')
     user = models.ForeignKey('auth.user', related_name='experiments')
     code = models.TextField(blank=True)
+
+
+class Profile(models.Model):
+    """Example for testing TemplateHTMLRenderer."""
+
+    name = models.CharField(max_length=50)

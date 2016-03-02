@@ -1,6 +1,6 @@
 """Serilizer for model snippets."""
 # Create your views here.
-from snippets.models import Snippet, Experiment
+from snippets.models import Snippet, Experiment, Profile
 from django.contrib.auth.models import User
 from snippets.serializers import SnippetSerializer, UserSerializer, ExperimentSerializer
 from rest_framework import renderers
@@ -110,3 +110,15 @@ def handle_upload_file(f):
     with open('/', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+
+
+class ProfileList(views.APIView):
+    """Example to test TemplateHTMLRenderer."""
+
+    renderer_classes = [renderers.TemplateHTMLRenderer]
+    template_name = 'profile_list.html'
+
+    def get(self, request):
+        """Get list data."""
+        queryset = Profile.objects.all()
+        return Response({'profiles': queryset})
