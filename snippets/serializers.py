@@ -65,3 +65,9 @@ class LoginSerializer(serializers.Serializer):
         max_length=100,
         style={'input_type': 'password', 'placeholder': 'Password'})
     remember_me = serializers.BooleanField()
+    detail = serializers.CharField(
+        max_length=1000,
+        style={'base_template': 'textarea.html', 'raw': 10})
+    # detail_1 = serializers.CharField(
+    #     max_length=1000,
+    #     style={'temaplate': 'my-field-template/custom-input.html'})
