@@ -1,6 +1,7 @@
 """snippets/serializers.py."""
 from rest_framework import serializers
 from snippets.models import Snippet, Experiment, Profile
+from snippets.models import Album, Track
 from django.contrib.auth.models import User
 
 
@@ -71,3 +72,25 @@ class LoginSerializer(serializers.Serializer):
     # detail_1 = serializers.CharField(
     #     max_length=1000,
     #     style={'temaplate': 'my-field-template/custom-input.html'})
+
+
+class AlbumSerializer(serializers.ModelSerializer):
+    """AlbumSerializer."""
+
+    tracks = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        """Meta."""
+
+        model = Album
+        fields = ('album_name', 'artist', 'tracks')
+
+
+class TrackSerializer(serializers.ModelSerializer):
+    """TrackSerializer."""
+
+    class Meta:
+        """Meta."""
+
+        model = Track
+        fields = ('album', 'order', 'title', 'duration')

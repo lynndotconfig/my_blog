@@ -8,6 +8,8 @@ router = DefaultRouter()
 router.register(r'snippets', views.SnippetViewSet)
 router.register(r'users', views.UserViewSet)
 router.register(r'experiments', views.ExperimentViewSet)
+router.register(r'album', views.AlbumViewSet)
+router.register(r'track', views.TrackViewSet)
 
 urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls',

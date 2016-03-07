@@ -63,3 +63,33 @@ class Profile(models.Model):
     """Example for testing TemplateHTMLRenderer."""
 
     name = models.CharField(max_length=50)
+
+
+class Album(models.Model):
+    """Model for example of Serializer stringRelatedField."""
+
+    album_name = models.CharField(max_length=100)
+    artist = models.CharField(max_length=100)
+
+    def __str__(self):
+        """Print object."""
+        return '%d: %s' % (self.id, self.album_name)
+
+
+class Track(models.Model):
+    """Track of album."""
+
+    album = models.ForeignKey(Album, related_name='tracks')
+    order = models.IntegerField()
+    title = models.CharField(max_length=100)
+    duration = models.IntegerField()
+
+    class Meta:
+        """Meta."""
+
+        unique_together = ('album', 'order')
+        ordering = ['order']
+
+    def __str__(self):
+        """Print str."""
+        return '%d: %s' % (self.order, self.title)

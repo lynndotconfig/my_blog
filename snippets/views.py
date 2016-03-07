@@ -1,10 +1,11 @@
 """Serilizer for model snippets."""
 # Create your views here.
 from snippets.models import Snippet, Experiment, Profile
+from snippets.models import Album, Track
 from django.contrib.auth.models import User
 from snippets.serializers import SnippetSerializer, UserSerializer
 from snippets.serializers import ExperimentSerializer, ProfileSerializer
-from snippets.serializers import LoginSerializer
+from snippets.serializers import LoginSerializer, AlbumSerializer, TrackSerializer
 from rest_framework import renderers
 from rest_framework import permissions
 from snippets.permissions import IsOwnerOrReadOnly
@@ -167,3 +168,17 @@ class Login(views.APIView):
         """Get page info."""
         serializer = LoginSerializer()
         return Response({'serializer': serializer})
+
+
+class AlbumViewSet(viewsets.ModelViewSet):
+    """Example to test serializer stringRelatedField."""
+
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
+
+
+class TrackViewSet(viewsets.ModelViewSet):
+    """String to test serialer stringRelatedField."""
+
+    queryset = Track.objects.all()
+    serializer_class = TrackSerializer
