@@ -77,7 +77,12 @@ class LoginSerializer(serializers.Serializer):
 class AlbumSerializer(serializers.ModelSerializer):
     """AlbumSerializer."""
 
-    tracks = serializers.StringRelatedField(many=True)
+    # tracks = serializers.StringRelatedField(many=True)
+    # tracks = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # tracks = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='track-detail')
+    # tracks = serializers.SlugRelatedField(many=True, read_only=True, slug_field='title')
+    tracks = serializers.HyperlinkedIdentityField(view_name='track-list')
+
 
     class Meta:
         """Meta."""
