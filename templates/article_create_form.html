@@ -2,10 +2,19 @@
 
 {% block content %}
 <form action="" method="post">{% csrf_token %}
-    <input type='text' placeholder="title for this article." name="title" />
-    <input type='text' placeholder="tag for this article." name="tag" />
-    <input type='text' placeholder="category for this article." name="category" />
-    <input type='text' placeholder="content for this article." name="content" />
+	{% csrf_token %}
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" class="form-control" {{ form.title }}
+    </div>
+    <div class="form-group">
+        <label for="category">Category:</label>
+        <input type="text" class="form-control" {{ form.category }}
+    </div>
+    <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea class="form-control" rows="20" {{ form.content }}
+    </div>
     <input type="submit" value="Create"/>
 </form>
 {% endblock %}
