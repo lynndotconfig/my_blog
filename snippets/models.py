@@ -8,11 +8,30 @@ from pygments.lexers import get_all_lexers, get_lexer_by_name
 from pygments.styles import get_all_styles
 from pygments.formatters.html import HtmlFormatter
 from pygments import highlight
+from django.core.exceptions import ValidationError
 
 
 LEXERS = [item for item in get_all_lexers() if item[1]]
 LANGUAGE_CHOICE = sorted([(item[1][0], item[0]) for item in LEXERS])
 STYLE_CHOICE = sorted((item, item) for item in get_all_styles())
+
+
+def validate_file(filefield_obj):
+        """Validate file size."""
+        content_types = ['video/x-msvideo', 'video/mp4']
+        megabyte_limit = 50.0
+        try:
+            content_type = filefield_obj.content_type
+            if content_type in content_types:
+                if filefield_obj._size > megabyte_limit * 1024 * 1024:
+                    raise ValidationError(
+                        "Max file size is %s MB" % str(megabyte_limit))
+            else:
+                raise ValidationError(
+                    "File type not supported")
+        except AttributeError:
+            pass
+        return
 
 
 class Snippet(models.Model):
@@ -54,7 +73,9 @@ class Experiment(models.Model):
 
     notes = models.TextField(blank=True)
     samplesheet = models.FileField(
-        upload_to='snippets/uploads/%Y/%m/%d', blank=True, default='')
+        upload_to='snippets/uploads/%Y/%m/%d',
+        blank=True, default='',
+        validators=[validate_file])
     user = models.ForeignKey('auth.user', related_name='experiments')
     code = models.TextField(blank=True)
 
