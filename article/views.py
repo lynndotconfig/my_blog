@@ -45,7 +45,7 @@ class ArticleSearchView(ListView):
 
     def get_queryset(self):
         try:
-            s = self.kwargs['s']
+            s = self.kwargs.get('s', None) or self.request.GET.get('s', None)
         except:
             s = ''
         if s:
