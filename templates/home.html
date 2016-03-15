@@ -2,6 +2,7 @@
 {% extends "base.html" %}
 {% load custom_markdown %}
 {% block content %}
+{% if post_list %}
 <div class="posts">
     {% for post in post_list %}
         <section class="post">
@@ -34,5 +35,10 @@
         </ul>
     </div>
     {% endif%}
+{% else %}
+<h1>NO Resutl</h1>
+{% endif %}
+
+{%  %}
 </div><!-- /.blog-post -->
 {% endblock %}

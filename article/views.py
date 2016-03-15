@@ -32,8 +32,13 @@ def archives(request):
         'post_list': post_list, 'error': False})
 
 
-def search_tag(request):
-    return render(request, 'home.html')
+def search_tag(request, tag):
+    try:
+        import pdb; pdb.set_trace()
+        post_list = Article.objects.get(tag=tag)
+    except Article.DoesNotExist:
+        raise Http404
+    return render(request, 'home.html', {'post_list': post_list})
 
 
 class ArticleSearchView(ListView):
