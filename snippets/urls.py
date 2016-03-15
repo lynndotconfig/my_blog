@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^profiles/', views.ProfileList.as_view(), name="profile-list"),
     url(r'^profile/(?P<pk>[0-9]+)/$', views.ProfileDetail.as_view(), name='profile-detail'),
     url(r'login/$', views.Login.as_view(), name="login"),
+    url(r'example/$', views.Example.as_view(), name="example"),
 ]

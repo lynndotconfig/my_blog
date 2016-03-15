@@ -7,6 +7,7 @@ from snippets.serializers import SnippetSerializer, UserSerializer
 from snippets.serializers import ExperimentSerializer, ProfileSerializer
 from snippets.serializers import LoginSerializer, AlbumSerializer, TrackSerializer
 from rest_framework import renderers
+from rest_framework import authentication
 from rest_framework import permissions
 from snippets.permissions import IsOwnerOrReadOnly
 from rest_framework.decorators import api_view, detail_route
@@ -182,3 +183,23 @@ class TrackViewSet(viewsets.ModelViewSet):
 
     queryset = Track.objects.all()
     serializer_class = TrackSerializer
+
+
+class Example(views.APIView):
+    """Test authentications."""
+
+    authentication_classes = (
+        authentication.SessionAuthentication,
+        # authentication.BasicAuthentication,
+    )
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, format=None):
+        """Get method."""
+        import pdb; pdb.set_trace()
+        content = {
+            'user': unicode(request.user),
+            'auth': unicode(request.auth),
+        }
+
+        return Response(content)
