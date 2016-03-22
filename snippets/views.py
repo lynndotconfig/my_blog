@@ -2,6 +2,7 @@
 # Create your views here.
 from snippets.models import Snippet, Experiment, Profile
 from snippets.models import Album, Track
+from snippets.authentications import ExampleAuthentication
 from django.contrib.auth.models import User
 from snippets.serializers import SnippetSerializer, UserSerializer
 from snippets.serializers import ExperimentSerializer, ProfileSerializer
@@ -191,6 +192,7 @@ class Example(views.APIView):
     authentication_classes = (
         authentication.SessionAuthentication,
         # authentication.BasicAuthentication,
+        ExampleAuthentication,
     )
     permission_classes = (permissions.IsAuthenticated,)
 

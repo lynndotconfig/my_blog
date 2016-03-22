@@ -2,6 +2,7 @@
 from django.conf.urls import url, include
 from snippets import views
 from rest_framework.routers import DefaultRouter
+import rest_framework.authtoken.views as vis
 
 # create a router and register our viewsets with it.
 router = DefaultRouter()
@@ -23,4 +24,6 @@ urlpatterns = [
     url(r'^profile/(?P<pk>[0-9]+)/$', views.ProfileDetail.as_view(), name='profile-detail'),
     url(r'login/$', views.Login.as_view(), name="login"),
     url(r'example/$', views.Example.as_view(), name="example"),
+    url(r'^api-token-auth', vis.obtain_auth_token),
+
 ]

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'snippets',
     'rest_framework_docs',
+    'rest_framework.authtoken',
 ]
 
 from django.conf import global_settings
