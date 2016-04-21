@@ -35,15 +35,21 @@ class SnippetViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticatedOrReadOnly,
         IsOwnerOrReadOnly,)
 
-    @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
-    def highlight(self, request, *args, **kwargs):
-        """Create a custom action, named `highlight`."""
-        snippet = self.get_object()
-        return Response(snippet.highlighted)
+    # @detail_route(renderer_classes=[renderers.StaticHTMLRenderer])
+    # def highlight(self, request, *args, **kwargs):
+    #     """Create a custom action, named `highlight`."""
+    #     snippet = self.get_object()
+    #     return Response(snippet.highlighted)
 
     def perform_create(self, serializer):
         """Rewrite create to associating snippets with users."""
         serializer.save(owner=self.request.user)
+
+    def list(self, request, user_pk=None):
+        """Get snippets list from the user."""
+        snippets = self.queryset.filter(owner=user_pk)
+        serializer = self.get_serializer(snippets, many=True)
+        return Response(serializer.data)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -51,6 +57,11 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    class Meta:
+
+        model = User
+        fields = ('url', 'id', 'name', 'snippets')
 
 
 class ExperimentViewSet(viewsets.ModelViewSet):

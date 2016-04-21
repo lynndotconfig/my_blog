@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'rest_framework',
     'snippets',
-    'rest_framework_docs',
+    # 'rest_framework_docs',
     'rest_framework.authtoken',
 ]
 
@@ -135,7 +135,7 @@ STATIC_URL = '/static/'
 
 # Settings for for rest_framework
 REST_FRAMEWORK = {
-    'PAGE_SIZE': 10,  # pagination
+    # 'PAGE_SIZE': 10,  # pagination
     # 'DEFAULT_PARSER_CLASSES': (
     #     'rest_framework.parsers.JSONParser',)
 }
