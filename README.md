@@ -9,7 +9,7 @@ git clone https://github.com/lynndotconfig/my_blog.git
 cd my_blog
 
 # if you have installed python pip.
-pip install -r requirements.text
+pip install install -r requirements.text
 
 # run server
 python manange.py runserver
@@ -29,7 +29,7 @@ $ git clone https://github.com/lynndotconfig/my_blog.git
 
 # install package.
 cd my_blog
-python pip -r requirements.txt
+python pip install -r requirements.txt
 
 # run the server.
 python manage.py runserver.
