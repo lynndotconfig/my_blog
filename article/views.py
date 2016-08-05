@@ -34,7 +34,6 @@ def archives(request):
 
 def search_tag(request, tag):
     try:
-        import pdb; pdb.set_trace()
         post_list = Article.objects.get(tag=tag)
     except Article.DoesNotExist:
         raise Http404
